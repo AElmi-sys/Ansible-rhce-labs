@@ -1,0 +1,28 @@
+
+---
+- name: create packages in different groups
+  hosts: dev,test,prod
+  become: true
+  tasks:
+    - name: Install httpd with php
+      ansible.builtin.dnf:
+        name:
+          - mariadb
+          - php
+        state: present 
+
+- name: Install development tools on dev
+  hosts: dev
+  become: true
+  tasks:
+    - name: Install dvelopment tool
+      ansible.builtin.dnf:
+        name: "@rpm Development tools"
+        state: latest
+          
+    - name: update all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+
