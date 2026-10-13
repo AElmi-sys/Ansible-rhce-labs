@@ -1,0 +1,21 @@
+
+---
+- name: Configure YUM repository
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Confiure a repo
+      ansible.builtin.yum_repository:
+        name: examrepo
+        description: EX2294 Exam Repository 
+        baseurl: http://repo.example.com/rhel/9/x86_64/
+        gpgcheck: true
+        enabled: true
+        gpgkey: http://repo.example.com/RPM-GPG-KEY
+
+    - nmae: Install httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+      
