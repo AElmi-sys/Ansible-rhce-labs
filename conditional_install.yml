@@ -1,0 +1,27 @@
+
+---
+- name: check status of a file
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: check the stat os a file
+      ansible.builtin.stat:
+        path: /etc/myapp/app.conf
+      register: file_stat
+
+   - name: check if it exists
+     ansible.builtin.debug:
+       msg: " file exist"
+     when: file_stat.stat.exists
+
+   - name: display if does not exist
+     ansible.builtin.debug:
+       msg: " file does not exist"
+     when: not file_stat.stat.exists
+
+   - name: install httpd if not exists
+     ansible.buitlin.dnf:
+       name: httpd
+       state: present
+     when: not file_stat.stat.exists                          
