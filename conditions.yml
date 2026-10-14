@@ -1,0 +1,20 @@
+
+---
+- name: control with conditionals
+  hosts: all
+  become: true
+
+  tasks:
+    - name: loop packages with dnf
+      ansible.builtin.dnf:
+        name:
+          - git
+          - tmux
+          - nc
+        state: present
+
+    - name: create a conditional file
+      ansible.builtin.file:
+        path: /root/redhat_node.txt
+        state: touch
+      when: ansible_facts['distribution'] == "RedHat"
