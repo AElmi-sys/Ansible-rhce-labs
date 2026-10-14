@@ -1,0 +1,16 @@
+
+---
+- name: data with ansible vault
+  hosts: all
+  become: true
+  vars_files:
+    - secret.yml
+  tasks:
+    - name: copy vault content
+      ansible.builtin.copy:
+        content: "{{ secret_message }}"
+        dest: /root/vault_output.txt
+        owner: root
+        group: root
+        mode: '0600'
+
