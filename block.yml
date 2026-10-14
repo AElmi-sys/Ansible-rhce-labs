@@ -1,0 +1,29 @@
+
+---
+- name: Error handling with block and rescue
+  hosts: all
+  become: true
+  tasks:
+    - block:
+      - name: Install nonexistant package
+        ansible.builtin.dnf:
+          name: nonexistent-pkg-xyz
+          state: present
+
+      rescue:
+        - name: run this if it fails
+          ansible.builtin.copy:
+            content: Fallback Handled
+            dest: /root/rescue_status.txt
+            owner: root
+            group: root
+            mode: '0644'
+      always:
+        - name: ran this always
+          ansible.builtin.copy:
+            content: Always Executed
+            dest: /root/always_status.txt
+            owner: root
+            group: root
+            mode: '0644'
+
